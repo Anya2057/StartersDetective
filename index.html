@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0a2840" />
+  <title>The Case of the Missing Backpack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <button class="brand" data-go="0" aria-label="Back to start"><span class="brand-mark">?</span><span>BACKPACK CASE</span></button>
+    <button id="boardBtn" class="board-btn"><i></i> CASE BOARD <b id="boardCount">0 / 4</b></button>
+    <div class="case-progress"><span id="progressText">CLUES: 0 / 4</span><div class="progress-track"><i id="progressFill"></i></div></div>
+    <button id="soundBtn" class="icon-btn" aria-label="Toggle sound">SOUND ON</button>
+  </header>
+
+  <main id="game">
+    <section class="screen active intro new-intro" data-screen="0">
+      <div class="intro-copy">
+        <p class="eyebrow">CASE FILE 001</p>
+        <h1>THE CASE OF THE<br><em>MISSING BACKPACK</em></h1>
+        <p class="lead">The classroom backpack is missing.<br>Inspect the room. Check every story. Follow the trail.</p>
+        <div class="case-stats"><span><b>4</b> SUSPECTS</span><span><b>6</b> MISSIONS</span><span><b>1</b> MYSTERY</span></div>
+        <button class="primary" data-next>ENTER HEADQUARTERS <span>→</span></button>
+      </div>
+      <div class="intro-scene"><div class="case-seal"><i></i><strong>TOP SECRET</strong><small>CASE 001</small></div><div class="alert-card"><strong>THE BACKPACK IS MISSING!</strong><small>The investigation starts now.</small></div></div>
+      <div class="case-number">01</div>
+    </section>
+
+    <section class="screen" data-screen="1">
+      <div class="stage-head"><div><p class="eyebrow">INVESTIGATION 01</p><h2>CRIME SCENE</h2></div><div class="stage-tag">MEMORY CHALLENGE</div></div>
+      <div id="memoryView" class="scene-frame detective-frame"><img src="assets/crime-scene-v2.png" alt="A mysterious classroom with a table, chair, books, ball, cat, windows and a missing backpack outline"><div class="look-card"><strong>LOOK CAREFULLY!</strong><span id="lookTimer">12</span></div></div>
+      <div id="memoryQuiz" class="panel quiz-panel hidden"><p class="eyebrow" id="memoryCount">QUESTION 1 OF 4</p><h3 id="memoryQuestion"></h3><div id="memoryAnswers" class="answer-grid"></div><div class="feedback" id="memoryFeedback"></div></div>
+      <div class="stage-actions"><button class="secondary" id="lightsBtn">LIGHTS ON <small>2 left</small></button><button class="primary hidden" id="memoryNext">NEXT →</button></div>
+    </section>
+
+    <section class="screen" data-screen="2">
+      <div class="stage-head"><div><p class="eyebrow">INVESTIGATION 02</p><h2>X-RAY BAG</h2></div><div class="stage-tag cyan">SCANNER ACTIVE</div></div>
+      <div class="xray-layout">
+        <div class="scanner" id="scanner"><img class="xray-obscured" src="assets/xray-suitcase.png" alt="An X-ray evidence view"><div id="scanLens" class="scan-lens"></div><div id="scanHotspots"></div><span class="corner tl"></span><span class="corner br"></span><p>OBJECTS <b id="scanNum">0</b> / 5</p></div>
+        <div class="panel xray-controls"><p class="eyebrow">MOVE THE SCANNER</p><h3 id="scanQuestion">Find a shape. Tap it.</h3><p class="xray-help">Only a small part is visible. Move slowly, join the shapes in your mind, then click.</p><div id="scanAnswers" class="answer-stack hidden"></div><div id="scanFeedback" class="feedback"></div><div class="evidence-tray"><small>CHECKED OBJECTS</small><div id="scanTray"></div></div></div>
+      </div>
+      <div class="stage-actions"><span class="mission-note">Each correct answer reveals the object.</span><button class="primary hidden" id="scanNext">NEXT →</button></div>
+    </section>
+
+    <section class="screen" data-screen="3">
+      <div class="stage-head"><div><p class="eyebrow">INVESTIGATION 03</p><h2>CHECK THE STORIES</h2></div><div class="stage-tag">12 FACTS TO CHECK</div></div>
+      <div class="database-layout"><div id="suspectCards" class="suspect-grid interview-grid"></div><aside class="panel task-panel interview-panel"><p class="eyebrow" id="interviewLabel">INTERVIEW 01</p><div class="task-dots" id="taskDots"></div><h3 id="dbQuestion"></h3><p id="dbContext" class="db-context"></p><div id="dbAnswers" class="answer-stack"></div><div id="dbFeedback" class="feedback"></div><button class="secondary hidden interview-continue" id="interviewContinue">SAY IT TOGETHER. THEN CONTINUE →</button></aside></div>
+      <div class="stage-actions"><span class="mission-note">Every answer checks a fact for the final deduction.</span><button class="primary hidden" id="dbNext">ADD FACTS TO THE CASE →</button></div>
+    </section>
+
+    <section class="screen" data-screen="4">
+      <div class="stage-head"><div><p class="eyebrow">INVESTIGATION 04</p><h2>FOLLOW THE FOOTPRINTS</h2></div><div class="stage-tag amber">TRAIL: <span id="trailCount">0 / 5</span></div></div>
+      <div class="map-layout wide-map-layout"><div class="map big-map" id="roomMap"><svg class="route-lines" viewBox="0 0 1000 650"><path d="M95 120 L380 80 L690 105 L900 180 L840 420 L610 560 L320 545 L90 430 L500 320 Z"/><path d="M380 80 L500 320 L840 420 M95 120 L320 545 M690 105 L610 560 M90 430 L900 180"/></svg><div id="footprintTrail" class="footprint-trail"></div><div class="case-map-title"><span></span>SECRET SCHOOL MAP<span></span></div><div id="detectivePawn" class="detective-pawn"><i></i></div></div><aside class="panel map-task"><p class="eyebrow">CURRENT ROUTE CARD</p><h3 id="mapQuestion"></h3><p>Look at the pictures. Find the next place.</p><div id="mapFeedback" class="feedback"></div></aside></div>
+      <div class="stage-actions"><span class="mission-note">Footprints stay on the map after every correct stop.</span><button class="primary hidden" id="mapNext">OPEN THE CAMERA FILE →</button></div>
+    </section>
+
+    <section class="screen glitch-screen" data-screen="5">
+      <div class="stage-head"><div><p class="eyebrow danger">BONUS ROUND</p><h2>THE GLITCH</h2></div><div class="stage-tag danger">DISTANCE: <span id="distanceLabel">FAR</span></div></div>
+      <div class="glitch-layout"><div class="glitch-field"><div class="cctv-recovery" id="cctvRecovery"><img src="assets/camera-photo.png" alt="A camera view of the school kitchen with a bicycle, helmet and backpack"><i></i><i></i><i></i><i></i></div><img id="monster" class="monster malware" src="assets/glitch.png" alt="A funny digital glitch blocks the camera file"></div><div class="panel glitch-task"><p class="eyebrow">RESTORE CAMERA FILE</p><div class="glitch-meter"><i id="glitchMeter"></i></div><h3 id="glitchQuestion"></h3><div id="glitchAnswers" class="answer-stack"></div><div id="glitchFeedback" class="feedback"></div><div class="photo-purpose"><b>WHY?</b><span>Every correct answer restores one part of the evidence photo.</span></div></div></div>
+      <div class="stage-actions"><span class="mission-note">Restore all four parts. Look for a bicycle, a helmet and the backpack.</span><button class="primary hidden" id="glitchNext">PIN PHOTO TO THE BOARD →</button></div>
+    </section>
+
+    <section class="screen" data-screen="6">
+      <div class="stage-head"><div><p class="eyebrow">THE BIG DECISION</p><h2>WHO HAS THE BACKPACK?</h2></div><button class="stage-tag" id="resetMarks">RESET MARKS</button></div>
+      <div class="clue-strip" id="clueStrip"></div>
+      <p class="discussion">Compare every clue. Mark impossible suspects or choose the person you want to accuse.</p>
+      <div id="finalSuspects" class="final-suspects"></div>
+      <div class="stage-actions center"><button class="primary accuse" id="accuseBtn" disabled>ACCUSE</button></div>
+    </section>
+
+    <section class="screen ending noir-ending" data-screen="7">
+      <div class="flash-bulbs"></div><div class="confetti" id="confetti"></div>
+      <div class="final-newspaper"><div class="paper-date">SPECIAL SCHOOL EDITION · CASE 001</div><h2>THE BACKPACK CASE</h2><div class="news-rule"></div><div class="news-grid"><div class="ending-photo"><img src="assets/camera-photo.png" alt="The camera clue"><span>CAMERA EVIDENCE</span></div><div class="news-copy"><p class="eyebrow">MYSTERY COMPLETE</p><h3>CASE COMPLETE!</h3><p>Zoe likes the banana in the bag. She carries the backpack to the kitchen. The camera shows her helmet and bicycle.</p><div class="case-stamp">BACKPACK<br>IS HERE</div><div class="ending-badges"><span>4 CLUES</span><span>SUPER DETECTIVES</span></div></div></div><button class="primary" id="playAgain">OPEN A NEW CASE</button></div>
+      <div class="ending-zoe"></div><div class="ending-bag"><span></span></div>
+    </section>
+  </main>
+
+  <div class="clue-modal hidden" id="clueModal"><div class="clue-paper"><button id="closeClue" aria-label="Close">×</button><p id="clueNumber">CLUE #1</p><div class="clue-icon"><i></i></div><h2 id="clueText"></h2><button class="primary" id="keepClue">KEEP THIS CLUE →</button></div></div>
+  <div class="portrait-modal hidden" id="portraitModal"><button id="closePortrait" aria-label="Close portrait">×</button><div id="bigPortrait" class="big-portrait"></div><div><p class="eyebrow">SUSPECT FILE</p><h2 id="bigName"></h2><div id="bigTraits" class="big-traits"></div><small>Tap outside to close</small></div></div>
+  <div class="location-modal hidden" id="locationModal"><button id="closeLocation" aria-label="Close location">×</button><div id="bigLocation" class="big-location"></div><div class="location-action"><p class="eyebrow">LOOK FOR DETAILS</p><h2 id="locationName">LOCATION</h2><button class="primary" id="chooseLocation">GO HERE</button></div></div>
+  <div class="case-board-modal hidden" id="caseBoard"><button id="closeBoard" aria-label="Close case board">×</button><div class="cork-board"><header><p>CASE FILE 001</p><h2>THE MISSING BACKPACK</h2><span id="boardStatus">THE CASE IS OPEN</span></header><svg class="red-string" viewBox="0 0 1200 700" preserveAspectRatio="none"><path d="M150 180 L420 130 L610 330 L940 160 L1040 490 L690 560 L350 500 Z"/><path d="M420 130 L690 560 M150 180 L940 160 M350 500 L1040 490"/></svg><div id="boardClues" class="board-clues"></div><div class="board-suspects"><div class="board-person p1"><i></i><span>MILO</span></div><div class="board-person p2"><i></i><span>ZOE</span></div><div class="board-person p3"><i></i><span>BEN</span></div><div class="board-person p4"><i></i><span>LUCY</span></div></div><div class="board-note">ASK · CHECK · COMPARE</div></div></div>
+  <script src="game.js"></script>
+</body>
+</html>
